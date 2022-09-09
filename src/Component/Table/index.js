@@ -14,6 +14,7 @@ const EmployeeEndpoint = axios.create({
 
 
 
+
 function Table() {
     const [category, setCategory] = useState("Sales")
     const [rawFetched, setRawFetched] = useState([])
@@ -55,6 +56,20 @@ function Table() {
         setCategory("Sales")
     }
 
+    function preview(event) {
+        event.preventDefault()
+        SalesEndpoint.interceptors.request.use(function (config) {
+            console.log("We have pinged intereceptor")
+            console.log("This is hte intercepted config", config)
+            return config;
+          }, function (error) {
+            // Do something with request error
+            return Promise.reject(error);
+          });
+
+         
+    }
+
     const Array = rawFetched?.data || [];
 
 
@@ -62,6 +77,7 @@ function Table() {
         <div className="tableComponent">
             <button type="button" className="btn btn-light" onClick={requestEmployees}> Employees </button>
             <button type="button" className="btn btn-light"  onClick={requestSales}> Sales </button>
+            <button type="button" className="btn btn-light" onClick={preview}>Add Intercept </button>
             <div className="output">
                 <table className="table">
                     <thead>
