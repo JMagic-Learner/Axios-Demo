@@ -11,12 +11,15 @@ const EmployeeCancel = EmployeeCancelToken.source();
 const SalesEndpoint = axios.create({
     baseURL: 'https://62e2c909b54fc209b8807084.mockapi.io/api/v1/Sales',
     timeout: 1000,
-    headers: { 'X-Custom-Header': 'foobar' }
+    headers: { 'X-Custom-Header': 'foobar' },
+    cancelToken: SalesCancel.token,
+
 });
 const EmployeeEndpoint = axios.create({
     baseURL: 'https://62e2c909b54fc209b8807084.mockapi.io/api/v1/Employees',
     timeout: 1000,
-    headers: { 'X-Custom-Header': 'foobar' }
+    headers: { 'X-Custom-Header': 'foobar' },
+    cancelToken: EmployeeCancel.token,
 });
 
 
@@ -39,11 +42,7 @@ function Table() {
     }
 
     async function fetchSales() {
-        const response = await SalesEndpoint.get("/",
-            {
-                cancelToken: SalesCancel.token,
-                timeout: 1500
-            }).catch(function (thrown) {
+        const response = await SalesEndpoint.get("/").catch(function (thrown) {
                 if (axios.isCancel(thrown)) {
                 console.log('Request canceled', thrown.message);
                 } else {
@@ -55,11 +54,7 @@ function Table() {
     }
 
     async function fetchEmployees() {
-        const response = await EmployeeEndpoint.get("/",
-        {
-            cancelToken: EmployeeCancel.token,
-            timeout: 1500
-        }).catch(function (thrown) {
+        const response = await EmployeeEndpoint.get("/").catch(function (thrown) {
             if (axios.isCancel(thrown)) {
             console.log('Request canceled', thrown.message);
             } else {
@@ -123,7 +118,9 @@ function Table() {
     function cancellation(event) {
         event.preventDefault()
         if (event.target.id === "Sales") {
+            console.log(SalesCancel)
         SalesCancel.cancel('Operation canceled by the user.');
+        
         fetchSales();
         }
         if (event.target.id === "Employees") {
