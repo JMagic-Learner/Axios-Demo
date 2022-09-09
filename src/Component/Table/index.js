@@ -80,8 +80,9 @@ function Table() {
                 if (config) {
                     console.log("We have pinged intereceptor for the SalesEndPoint")
                     console.log("This is hte intercepted config", config)
+                    return config;
                 }
-                return config;
+                
             }, function (error) {
                 // Do something with request error
                 return Promise.reject(error);
@@ -91,8 +92,9 @@ function Table() {
                 if (config) {
                     console.log("We have pinged intereceptor for the EmployeeEndPoint")
                     console.log("This is hte intercepted config", config)
+                    return config;
                 }
-                return config;
+                
             }, function (error) {
                 // Do something with request error
                 return Promise.reject(error);
