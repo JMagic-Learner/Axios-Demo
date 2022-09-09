@@ -109,16 +109,14 @@ function Table() {
         event.preventDefault()
         if (event.target.id === "Sales") {
             setSalesStatus("Intercept Disabled")
+            const SalesEject = SalesEndpoint.interceptors.request.use(function () {/*...*/ });
+            SalesEndpoint.interceptors.request.eject(SalesEject);
+          
         } else {
             setEmployeeStatus("Intercept Disabled")
-        }
-
-        if (category === "Sales") {
-            const SalesEject = SalesEndpoint.interceptors.request.use(function () {/*...*/ });
-            SalesEject.interceptors.request.eject(SalesEject);
-        } else {
             const EmployeeEject = EmployeeEndpoint.interceptors.request.use(function () {/*...*/ });
-            EmployeeEject.interceptors.request.eject(EmployeeEject);
+            EmployeeEndpoint.interceptors.request.eject(EmployeeEject);
+           
         }
     }
 
